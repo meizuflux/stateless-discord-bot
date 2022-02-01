@@ -1,4 +1,4 @@
-import * as lib from "./_lib"
+import * as lib from "../lib/framework.js"
 
 
 export default new lib.Command({
