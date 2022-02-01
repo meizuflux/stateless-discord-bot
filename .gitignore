@@ -4,3 +4,5 @@ wasm-pack.log
 build/
 node_modules/
 dist/
+*.config.ts
+yarn-error.log
