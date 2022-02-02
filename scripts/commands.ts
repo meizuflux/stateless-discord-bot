@@ -3,6 +3,7 @@ import APIHandler from "../lib/api.js"
 import dev_config from "../dev.config.js"
 import prod_config from "../prod.config.js"
 let config = dev_config
+let guild = false
 
 const args = process.argv.splice(2)
 
@@ -13,6 +14,11 @@ for (let [i, arg] of args.entries()) {
         args.splice(i, 1)
         config = prod_config
     }
+	
+	if (["--guild", "-g"].includes(arg.toLowerCase())) {
+		args.splice(i, 1)
+		guild = true
+	}
     // help menu
     if (["--help", "-h"].includes(arg.toLowerCase())) {
         console.log(`Commands:
@@ -26,6 +32,7 @@ Providing no command defaults to the "show" command
 Flags:
     --help (-h) - Shows this menu
     --production (--prod, -p) - Uses "prod.config.ts" instead of "dev.config.ts"
+	--guild (-g) - Uses the guild verson of commands (Ex: Create a guild command instead of a global command)
         `)
     }
 }
@@ -47,6 +54,8 @@ Try running with the "--help" flag to view all valid commands`
     process.exit(1)
 }
 
+console.log(guild)
+
 // setup client
 const client = new APIHandler(config.id, config.secret)
 await client.fetchToken()
@@ -54,6 +63,8 @@ await client.fetchToken()
 // get function and call it 
 const fn = _commands[args[0]]
 await fn()
+
+console.log(await client.revokeToken())
 
 /*
     COMMANDS BELOW

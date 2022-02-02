@@ -58,15 +58,32 @@ class APIHandler {
             method: "POST"
         })
 
-        if (!res.ok) {
-            const text = await res.text()
-            throw new Error("could not fetch token: " + text)
-        }
+		if (!res.ok) {
+			throw new Error(`${res.status}: Could not fetch token: ${await res.text()}`)
+		}
 
         const data = await res.json()
         this.token = data["access_token"]
         return this.token
     }
+	
+	async revokeToken() {
+		this.verifyTokenExists("revokeToken()")
+		
+		const res = await fetch("https://discord.com/api/oauth2/token/revoke", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: `client_id=${this.id}&client_secret=${this.secret}&token=${this.token}`
+		})
+		
+		if (!res.ok) {
+			throw new Error(`${res.status}: Could not revoke token: ${await res.text()}`)
+		}
+		
+		return await res.json()
+	}
 }
 
 export default APIHandler
