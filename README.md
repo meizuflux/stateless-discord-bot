@@ -1,41 +1,37 @@
-# Getting Started
+Discord bot that runs on a Cloudflare Worker
 
-A template for kick starting a Cloudflare worker project using [`workers-rs`](https://github.com/cloudflare/workers-rs).
+Worker is written in Rust and the CLI tool + command framework is written in TypeScript for ease of use
 
-This template is designed for compiling Rust to WebAssembly and publishing the resulting worker to 
-Cloudflare's [edge infrastructure](https://www.cloudflare.com/network/).
+## Configuration:
+Make two bots, a production one and a development one.
 
-## Usage 
-
-This template starts you off with a `src/lib.rs` file, acting as an entrypoint for requests hitting
-your Worker. Feel free to add more code in this file, or create Rust modules anywhere else for this
-project to use. 
-
-With `wrangler`, you can build, test, and deploy your Worker with the following commands: 
-
-```bash
-# compiles your project to WebAssembly and will warn of any issues
-wrangler build 
-
-# run your Worker in an ideal development workflow (with a local server, file watcher & more)
-wrangler dev
-
-# deploy your Worker globally to the Cloudflare network (update your wrangler.toml file for configuration)
-wrangler publish
+> prod.config.ts
+```ts
+export default {
+    id: "12345678910",
+    secret: "your secret from the Oauth2 tab",
+    guild: "testing guild id, can leave blank if needed"
+}
+```
+> dev.config.ts
+```ts
+export default {
+    id: "12345678910",
+    secret: "client secret",
+    guild: "testing guild id"
+}
 ```
 
-Read the latest `worker` crate documentation here: https://docs.rs/worker
+## Application Commands
+Create commands in the `commands` folder.
+Run the CLI tool after running `yarn install` with 
+```bash
+$ yarn discord
+```
 
-## WebAssembly
+Use the `--help` flag to view all commands and flags
 
-`workers-rs` (the Rust SDK for Cloudflare Workers used in this template) is meant to be executed as 
-compiled WebAssembly, and as such so **must** all the code you write and depend upon. All crates and
-modules used in Rust-based Workers projects have to compile to the `wasm32-unknown-unknown` triple. 
+## Deployment
+Deploy to Cloudflare Workers I guess.
 
-Read more about this on the [`workers-rs` project README](https://github.com/cloudflare/workers-rs).
-
-## Issues
-
-If you have any problems with the `worker` crate, please open an issue on the upstream project 
-issue tracker on the [`workers-rs` repository](https://github.com/cloudflare/workers-rs).
-
+`package.json` contains useful scripts (like `miniflare`) for both the Worker and CLI tool

@@ -5,10 +5,12 @@ class APIHandler {
     token: string;
     id: string
     secret: string;
+    guild: string
 
-    constructor(id: string, secret: string) {
+    constructor(id: string, secret: string, guild: string) {
         this.id = id
         this.secret = secret
+        this.guild = guild
     }
 
     async request(method: string, path: string, body?: {}): Promise<any> {
@@ -26,7 +28,7 @@ class APIHandler {
             options.headers["Content-Type"] = "application/json"
         }
 
-        const modifiedPath = path.replace("{id}", this.id)
+        const modifiedPath = path.replace("{id}", this.id).replace("{guild}", this.guild)
 
         const res = await fetch("https://discord.com/api/v9" + modifiedPath, options)
 
@@ -41,6 +43,12 @@ class APIHandler {
         this.verifyTokenExists("getGlobalCommands()")
 
         return await this.request("GET", "/applications/{id}/commands")
+    }
+
+    async getGuildCommands(): Promise<[]> {
+        this.verifyTokenExists("getGuildCommands()")
+
+        return await this.request("GET", "/applications/{id}/guilds/{guild}/commands")
     }
 
     verifyTokenExists(name: string) {
