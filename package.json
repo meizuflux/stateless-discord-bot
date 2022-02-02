@@ -2,7 +2,7 @@
   "name": "stateless-discord-bot",
   "version": "1.0.0",
   "author": "meizuflux",
-  "license": "Apache-2.0",
+  "license": "MPL-2.0",
   "type": "module",
   "scripts": {
     "dev": "miniflare --live-reload --debug --host localhost --port 8000 -m esnext",
@@ -14,6 +14,6 @@
     "@types/yargs": "^17.0.8",
     "miniflare": "^2.2.0",
     "node-fetch": "^3.2.0",
-    "typescript": "^4.6.0-dev.20220131"
+    "typescript": "next"
   }
 }

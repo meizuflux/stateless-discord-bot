@@ -176,6 +176,7 @@ class Command {
     }
 
     to_json() {
+        // name is misleading, it returns a command object that can be serialized into json
         let obj: {[k: string]: any} = {
             name: this.name,
             description: this.description,

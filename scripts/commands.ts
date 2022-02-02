@@ -41,7 +41,7 @@ if (args.length == 0) {
     args[0] = "show"
 }
 
-// array of valid commands with their associated
+// array of valid commands with their associated function
 const _commands = {
     show: show
 }
@@ -53,25 +53,31 @@ Try running with the "--help" flag to view all valid commands`
     )
     process.exit(1)
 }
-
-console.log(guild)
-
 // setup client
-const client = new APIHandler(config.id, config.secret)
+const client = new APIHandler(config.id, config.secret, config.guild)
 await client.fetchToken()
 
-// get function and call it 
+// get function and call it
 const fn = _commands[args[0]]
 await fn()
 
-console.log(await client.revokeToken())
+// good practice to revoke the token after we're done
+await client.revokeToken()
+
 
 /*
     COMMANDS BELOW
 */
 
 async function show(): Promise<void> {
-    const commands = await client.getGlobalCommands()
+    let commands = []
+
+    // change behavior based on guild
+    if (guild == true) {
+        commands = await client.getGuildCommands()
+    } else {
+        commands = await client.getGlobalCommands()
+    }
 
     let names = []
 
@@ -79,7 +85,7 @@ async function show(): Promise<void> {
         names.push(command["name"])
     }
 
-    console.log(`There are ${names.length} global commands
+    console.log(`There are ${names.length} ${guild ? "guild" : "global"} commands
 
 Commands:
     ${names.join("\n")}
