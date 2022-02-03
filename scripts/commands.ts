@@ -84,10 +84,13 @@ async function overwriteCommands(): Promise<void> {
 	for (let cmd of readdirSync("./commands")) {
 		const path = `../commands/${cmd.replace(".ts", ".js")}`
 		const module = await import (path)
-		commands.push(module.default)
+		commands.push(module.default.to_json())
 	}
 	
-	console.log(commands)
+	if (guild === true) res = await client.overwriteGuildCommands(commands)
+    else res = await client.overwriteGlobalCommands(commands)
+
+    console.log(res)
 }
 
 async function deleteCommand(): Promise<void> {
@@ -124,7 +127,7 @@ async function updateCommand(): Promise<void> {
         process.exit(1)
     }
 
-    const command = (await import(`../commands/${command_name}.js`)).default
+    const command = (await import(`../commands/${command_name}.js`)).default.to_json()
 
     if (guild == true) {
         const found = await findCommand(command_name)
@@ -151,7 +154,7 @@ async function createCommand(): Promise<void> {
         process.exit(1)
     }
 
-    const command = (await import(`../commands/${command_name}.js`)).default
+    const command = (await import(`../commands/${command_name}.js`)).default.to_json()
 
     if (guild == true) {
         res = await client.createGuildCommand(command)

@@ -44,6 +44,19 @@ class APIHandler {
         return await res.json()
     }
 
+    async overwriteGlobalCommands(commands) {
+        this.verifyTokenExists("overwriteGlobalCommands()")
+
+        return await this.request("PUT", "/applications/{id}/commands", commands)
+    }
+
+    async overwriteGuildCommands(commands) {
+        this.verifyTokenExists("overwriteGuildCommands()")
+
+        return await this.request("PUT", "/applications/{id}/guilds/{guild}/commands", commands)
+    }
+
+
     async getGlobalCommands(): Promise<[]> {
         this.verifyTokenExists("getGlobalCommands()")
 
@@ -56,49 +69,49 @@ class APIHandler {
         return await this.request("GET", "/applications/{id}/guilds/{guild}/commands")
     }
 
-    async createGlobalCommand(command: Command) {
+    async createGlobalCommand(command): Promise<{}> {
         this.verifyTokenExists("createGlobalCommand()")
 
-        return await this.request("POST", "/applications/{id}/commands", command.to_json())
+        return await this.request("POST", "/applications/{id}/commands", command)
     }
 
-    async createGuildCommand(command: Command) {
+    async createGuildCommand(command): Promise<{}> {
         this.verifyTokenExists("createGuildCommand()")
 
-        return await this.request("POST", "/applications/{id}/guilds/{guild}/commands", command.to_json())
+        return await this.request("POST", "/applications/{id}/guilds/{guild}/commands", command)
     }
 
-    async editGlobalCommand(id: string, command: Command) {
+    async editGlobalCommand(id: string, command): Promise<{}> {
         this.verifyTokenExists("editGlobalCommand()")
 
-        return await this.request("PATCH", "/applications/{id}/commands/" + id, command.to_json())
+        return await this.request("PATCH", "/applications/{id}/commands/" + id, command)
     }
 
-    async editGuildCommand(id: string, command: Command) {
+    async editGuildCommand(id: string, command): Promise<{}> {
         this.verifyTokenExists("editGlobalCommand()")
 
-        return await this.request("PATCH", "/applications/{id}/guilds/{guild}/commands/" + id, command.to_json())
+        return await this.request("PATCH", "/applications/{id}/guilds/{guild}/commands/" + id, command)
     }
 
-    async getGlobalCommand(id: string) {
+    async getGlobalCommand(id: string): Promise<{}> {
         this.verifyTokenExists("getGlobalCommand()")
 
         return await this.request("GET", "/applications/{id}/commands/" + id)
     }
 
-    async getGuildCommand(id: string) {
+    async getGuildCommand(id: string): Promise<{}> {
         this.verifyTokenExists("getGlobalCommand()")
 
         return await this.request("GET", "/applications/{id}/guilds/{guild}/commands/" + id)
     }
 
-    async deleteGlobalCommand(id: string) {
+    async deleteGlobalCommand(id: string): Promise<{}> {
         this.verifyTokenExists("deleteGlobalCommand()")
 
         return await this.request("DELETE", "/applications/{id}/commands/" + id)
     }
 
-    async deleteGuildCommand(id: string) {
+    async deleteGuildCommand(id: string): Promise<{}> {
         this.verifyTokenExists("deleteGlobalCommand()")
 
         return await this.request("DELETE", "/applications/{id}/guilds/{guild}/commands/" + id)
