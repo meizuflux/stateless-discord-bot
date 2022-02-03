@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "miniflare --live-reload --debug --host localhost --port 8000 -m",
-    "prediscord": "tsc",
+    "discord:b": "tsc && node dist/scripts/commands.js",
     "discord": "node dist/scripts/commands.js"
   },
   "devDependencies": {

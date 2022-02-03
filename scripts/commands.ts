@@ -23,7 +23,7 @@ for (let [i, arg] of args.entries()) {
     // help menu
     if (["--help", "-h"].includes(arg.toLowerCase())) {
         console.log(`Commands:
-    init - Initializes and overwrites all global commands
+    overwrite - Overwrites all existing commands / create new ones
     create [command] - Creates specified command
     update [command] - Updates specified command
     delete [command] - Deletes specified command
@@ -48,7 +48,8 @@ const _commands = {
     view: viewCommands,
     create: createCommand,
     update: updateCommand,
-    delete: deleteCommand
+    delete: deleteCommand,
+	overwrite: overwriteCommands
 }
 
 // make sure command specified is a valid command
@@ -73,6 +74,21 @@ await client.revokeToken()
 /*
     COMMANDS BELOW
 */
+
+async function overwriteCommands(): Promise<void> {
+	let res = {}
+	
+	let commands = []
+	
+	
+	for (let cmd of readdirSync("./commands")) {
+		const path = `../commands/${cmd.replace(".ts", ".js")}`
+		const module = await import (path)
+		commands.push(module.default)
+	}
+	
+	console.log(commands)
+}
 
 async function deleteCommand(): Promise<void> {
     let res = {}
