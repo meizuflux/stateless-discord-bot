@@ -1,5 +1,8 @@
 [package]
 name = "stateless-discord-bot"
+description = "the name"
+repository = "https://github.com/meizuflux/stateless-discord-bot"
+license = "MPL-2.0"
 version = "0.1.0"
 authors = ["meizuflux"]
 edition = "2018"
