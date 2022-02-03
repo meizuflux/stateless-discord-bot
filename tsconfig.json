@@ -99,5 +99,5 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   //"files": ["./scripts/commands.ts"]
-  "include": ["./scripts"]
+  "include": ["./scripts", "./commands", "./lib"]
 }

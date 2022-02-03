@@ -1,4 +1,5 @@
 import fetch from "node-fetch"
+import { Command } from "./framework.js"
 
 
 class APIHandler {
@@ -36,6 +37,10 @@ class APIHandler {
             throw new Error(`${path} failed with code ${res.status}: ${await res.text()}`)
         }
 
+        if (res.status == 204) {
+            return {}
+        }
+
         return await res.json()
     }
 
@@ -49,6 +54,54 @@ class APIHandler {
         this.verifyTokenExists("getGuildCommands()")
 
         return await this.request("GET", "/applications/{id}/guilds/{guild}/commands")
+    }
+
+    async createGlobalCommand(command: Command) {
+        this.verifyTokenExists("createGlobalCommand()")
+
+        return await this.request("POST", "/applications/{id}/commands", command.to_json())
+    }
+
+    async createGuildCommand(command: Command) {
+        this.verifyTokenExists("createGuildCommand()")
+
+        return await this.request("POST", "/applications/{id}/guilds/{guild}/commands", command.to_json())
+    }
+
+    async editGlobalCommand(id: string, command: Command) {
+        this.verifyTokenExists("editGlobalCommand()")
+
+        return await this.request("PATCH", "/applications/{id}/commands/" + id, command.to_json())
+    }
+
+    async editGuildCommand(id: string, command: Command) {
+        this.verifyTokenExists("editGlobalCommand()")
+
+        return await this.request("PATCH", "/applications/{id}/guilds/{guild}/commands/" + id, command.to_json())
+    }
+
+    async getGlobalCommand(id: string) {
+        this.verifyTokenExists("getGlobalCommand()")
+
+        return await this.request("GET", "/applications/{id}/commands/" + id)
+    }
+
+    async getGuildCommand(id: string) {
+        this.verifyTokenExists("getGlobalCommand()")
+
+        return await this.request("GET", "/applications/{id}/guilds/{guild}/commands/" + id)
+    }
+
+    async deleteGlobalCommand(id: string) {
+        this.verifyTokenExists("deleteGlobalCommand()")
+
+        return await this.request("DELETE", "/applications/{id}/commands/" + id)
+    }
+
+    async deleteGuildCommand(id: string) {
+        this.verifyTokenExists("deleteGlobalCommand()")
+
+        return await this.request("DELETE", "/applications/{id}/guilds/{guild}/commands/" + id)
     }
 
     verifyTokenExists(name: string) {

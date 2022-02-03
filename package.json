@@ -5,7 +5,7 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
-    "dev": "miniflare --live-reload --debug --host localhost --port 8000 -m esnext",
+    "dev": "miniflare --live-reload --debug --host localhost --port 8000 -m",
     "prediscord": "tsc",
     "discord": "node dist/scripts/commands.js"
   },
