@@ -18,5 +18,7 @@ main = "./shim.mjs"
 globs = ["**/*.wasm"]
 type = "CompiledWasm"
 
+[env.dev]
+
 # read more about configuring your Worker via wrangler.toml at:
 # https://developers.cloudflare.com/workers/cli-wrangler/configuration

@@ -22,6 +22,12 @@ export default {
 }
 ```
 
+Set up the public key on dev and prod: 
+```bash
+$ wrangler secret PUBLIC_KEY
+$ wrangler secret PUBLIC_KEY -e dev
+```
+
 ## Application Commands
 Create commands in the `commands` folder.
 Run the CLI tool after running `yarn install` with 
@@ -35,3 +41,5 @@ Use the `--help` flag to view all commands and flags
 Deploy to Cloudflare Workers I guess.
 
 `package.json` contains useful scripts (like `miniflare`) for both the Worker and CLI tool
+
+Set the Interaction Endpoint in the Discord Developer tab for the bot to the worker at the `/interaction` endpoint
