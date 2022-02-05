@@ -6,18 +6,24 @@ import prod_config from "../prod.config.js"
 let config = dev_config
 let guild = false
 
-const args = process.argv.splice(2)
+let args = process.argv.splice(2)
+
+const new_args = process.argv.splice(2)
 
 // checking for flags
 for (let [i, arg] of args.entries()) {
+
     // check if production flag was used, and remove it from the args, then change configuration to match
     if (["--production", "--prod", "-p"].includes(arg.toLowerCase())) {
-        args.splice(i, 1)
+        args = args.filter(function(value){ 
+            return value.toLowerCase() !== arg.toLowerCase();
+        });
         config = prod_config
     }
-	
 	if (["--guild", "-g"].includes(arg.toLowerCase())) {
-		args.splice(i, 1)
+		args = args.filter(function(value){ 
+            return value.toLowerCase() !== arg.toLowerCase();
+        });
 		guild = true
 	}
     // help menu
@@ -36,6 +42,7 @@ Flags:
     --production (--prod, -p) - Uses "prod.config.ts" instead of "dev.config.ts"
 	--guild (-g) - Uses the guild verson of commands (Ex: Create a guild command instead of a global command)
         `)
+        process.exit()
     }
 }
 // default command
@@ -62,7 +69,6 @@ Try running with the "--help" flag to view all valid commands`
 // setup client
 const client = new APIHandler(config.id, config.secret, config.guild)
 await client.fetchToken()
-
 
 // get function and call it
 const fn = _commands[args[0]]
